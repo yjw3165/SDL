@@ -1,0 +1,16 @@
+.vs/
+*.user
+*.obj
+*.pdb
+*.idb
+*.ipch
+*.exe
+*.log
+*.aps
+*.ncb
+*.sdf
+*.opensdf
+*.VC.db
+*.tlog
+*.cache
+*.ilk
