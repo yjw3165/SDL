@@ -86,10 +86,10 @@ int main()
 	}
 	
 	//텍스처로딩
-	SDL_Texture* idleL = LoadTexture("idle_Left.bmp",Renderer);
-	SDL_Texture* idleR = LoadTexture("idle_Right.bmp", Renderer);
-	SDL_Texture* runL = LoadTexture("run_left.bmp", Renderer);
-	SDL_Texture* runR = LoadTexture("run_right.bmp", Renderer);
+	SDL_Texture* idleL = LoadTexture("assets/idle_Left.bmp",Renderer);
+	SDL_Texture* idleR = LoadTexture("assets/idle_Right.bmp", Renderer);
+	SDL_Texture* runL = LoadTexture("assets/run_left.bmp", Renderer);
+	SDL_Texture* runR = LoadTexture("assets/run_right.bmp", Renderer);
 
 	SDL_Texture* Array_Textures[] = { idleL,idleR,runL,runR };
 	
