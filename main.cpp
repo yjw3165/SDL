@@ -105,7 +105,7 @@ int main()
 		}
 	}
 
-	//최초 위치
+	//최초 위치 / 렌더링 사이즈
 	SDL_Rect dstRect = { 304,224,64,64 };
 
 	//프레임 초기화
@@ -125,6 +125,9 @@ int main()
 	SDL_Rect JumpFrames[12];
 	InitTextureFrames(JumpFrames, JUMP_FRAME_COUNT, Frame_WIDTH, Frame_HEIGHT, 3,4);
 	
+	const int SCREEN_WIDTH = 640;
+	const int SCREEN_HEIGHT = 480;
+
 	//프레임 관련 변수 초기화
 	int FrameIndex = 0;
 	Uint32 lastFrameTime = 0;
@@ -163,13 +166,13 @@ int main()
 		//이동
 		if (keyStates[SDL_SCANCODE_A])
 		{
-			dstRect.x -= 4;
+			dstRect.x -= 6;
 			wasLeft = true;
 			isMoving = true;
 		}
 		else if (keyStates[SDL_SCANCODE_D])
 		{
-			dstRect.x += 4;
+			dstRect.x += 6;
 			wasLeft = false;
 			isMoving = true;
 		}
@@ -178,7 +181,7 @@ int main()
 		if (keyStates[SDL_SCANCODE_SPACE] && !isJumping)
 		{
 			std::cout << "Press SpaceBar" << std::endl;
-			velocityY = -10.0f;
+			velocityY = -15.0f;
 			FrameIndex = 0;
 			isJumping = true;
 		}
@@ -253,12 +256,23 @@ int main()
 			FrameIndex = (Now - lastFrameTime >= frameInterval) ? (FrameIndex + 1) % IDLE_FRAME_COUNT : FrameIndex;
 		}
 		
-		
-		
-
 		if (Now - lastFrameTime >= frameInterval)
 		{
 			lastFrameTime = Now;
+		}
+
+		//경계선 밖으로 나가면
+		//경계선 왼쪽으로 나가면
+		if (dstRect.x + dstRect.w < 0)
+		{
+			//화면 경계선 지점이 캐릭터 왼쪽 지점이 됨
+			dstRect.x = SCREEN_WIDTH;
+		}
+		//경계선 오른쪽으로 나가면
+		else if (dstRect.x > SCREEN_WIDTH)
+		{
+			//화면 경계선 지점이 캐릭터 오른쪽 지점이 됨
+			dstRect.x = -dstRect.w;
 		}
 
 		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
