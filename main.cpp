@@ -32,11 +32,6 @@ bool(InitSDL(SDL_Window** window, SDL_Renderer** renderer))
 	return true;
 }
 
-void CleanUp(SDL_Window* window, SDL_Renderer* renderer, SDL_Texture* Textures[])
-{
-	SDL_Quit();
-}
-
 int main()
 {
 	//SDL 초기화
@@ -47,7 +42,7 @@ int main()
 		return 1;
 	}
 	
-	//텍스처로딩
+	//Player 클래스 Init
 	Player Player;
 	if (!Player.Init(Renderer))
 	{
@@ -75,7 +70,6 @@ int main()
 
 		Player.HandleInput(keyStates);
 		Player.Update(SDL_GetTicks());
-
 		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 		SDL_RenderClear(Renderer);
 		Player.Render(Renderer);
