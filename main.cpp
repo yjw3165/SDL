@@ -58,7 +58,7 @@ void InitTextureFrames(SDL_Rect Frames[], int count, int frameWidth, int frameHe
 	for (int i = 0; i < count; i++)
 	{
 		int col = i % Columns;
-		int row = i / Columns;
+		int row = i / Rows;
 		Frames[i] = { col * frameWidth , row * frameHeght, frameWidth, frameHeght };
 	}
 }
@@ -216,7 +216,7 @@ int main()
 			isMoving = false;
 			CurrentFrame = JumpFrames;
 			CurrentTexture = wasLeft ? JumpL : JumpR;
-			frameInterval = 150;
+			frameInterval = 200;
 
 			if (velocityY < 0)
 			{
@@ -228,11 +228,11 @@ int main()
 			}
 			else if (velocityY > 0)
 			{
-				FrameIndex = (Now - lastFrameTime >= frameInterval) ? (6 + 1) % JUMP_FRAME_COUNT : FrameIndex;
+				FrameIndex = (Now - lastFrameTime >= frameInterval) ? (7 + 1) % JUMP_FRAME_COUNT : FrameIndex;
 			}
 			else
 			{
-				FrameIndex = (Now - lastFrameTime >= frameInterval) ? (8 + 1) % JUMP_FRAME_COUNT : FrameIndex;
+				FrameIndex = (Now - lastFrameTime >= frameInterval) ? (9 + 1) % JUMP_FRAME_COUNT : FrameIndex;
 			}
 
 		}
