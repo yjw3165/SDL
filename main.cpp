@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SDL.h>
 #include "Player.h"
+#include "TileMap.h"
 
 //SDL 초기화 , 윈도우 생성 , 렌더러 생성
 bool(InitSDL(SDL_Window** window, SDL_Renderer** renderer))
@@ -46,16 +47,26 @@ int main()
 	Player Player;
 	if (!Player.Init(Renderer))
 	{
-		std::cerr << "Failed to Init Player" << std::endl;
+		std::cerr << "Failed to Init Player Class" << std::endl;
+		return 1;
+	}
+
+	//TileMap 클래스 Init
+	TileMap TileMap;
+	if (!TileMap.init(Renderer))
+	{
+		std::cerr << "Failed to Init TileMap Class" << std::endl;
 		return 1;
 	}
 
 	const Uint8* keyStates = SDL_GetKeyboardState(NULL);
 	bool running = true;
 	SDL_Event event;
+
+	//메인 루프
 	while (running)
 	{
-
+		//키 이벤트 제어
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT)
@@ -68,19 +79,44 @@ int main()
 			}
 		}
 
+		//입력 제어
 		Player.HandleInput(keyStates);
+
+		//애니메이션 / 피직스 업데이트
 		Player.Update(SDL_GetTicks());
-		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+
+		//화면 지우기
 		SDL_RenderClear(Renderer);
+
+		//바탕은 흰색으로
+		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+		//TileMap 렌더링
+		TileMap.Render(Renderer);
+		//플레이어 렌더링
 		Player.Render(Renderer);
+
+		//실제로 그리기
 		SDL_RenderPresent(Renderer);
 
+		//FPS설정 16ms = 60FPS
 		SDL_Delay(16);
 	}
 
+	
+
+	//정리는 시작의 역순으로
+	//시작 : SDL 생성-> 윈도우 생성 -> 렌더러 생성 -> 텍스처 생성
+	//종료 : 텍스처 정리 -> 렌더러 종료 -> 윈도우 종료 -> SDL 종료
+	
+	//TileMap 정리
+	TileMap.CleanUp();
+	//플레이어에 사용된 텍스처 정리
 	Player.CleanUp();
+	//렌더러 정리
 	SDL_DestroyRenderer(Renderer);
+	//윈도우 정리
 	SDL_DestroyWindow(Window);
+	//SDL_종료
 	SDL_Quit();
 
 	return 0;

@@ -29,21 +29,21 @@ private:
 	void UpdatePhysics();
 	void WrapAroundScreen(int screenWidth);
 
-	float velocityY;
-	bool isJumping;
-	bool wasLeft;
-	int groundY;
+	float velocityY = 0.0f;
+	bool isJumping = false;
+	bool wasLeft = false;
+	int groundY = 0;
 
-	SDL_Texture* idleTexture_R;
-	SDL_Texture* idleTexture_L;
-	SDL_Texture* runTexture_R;
-	SDL_Texture* runTexture_L;
-	SDL_Texture* jumpTexture_R;
-	SDL_Texture* jumpTexture_L;
+	SDL_Texture* idleTexture_R = nullptr;
+	SDL_Texture* idleTexture_L = nullptr;
+	SDL_Texture* runTexture_R = nullptr;
+	SDL_Texture* runTexture_L = nullptr;
+	SDL_Texture* jumpTexture_R = nullptr;
+	SDL_Texture* jumpTexture_L = nullptr;
 
-	int frameIndex;
-	Uint32 lastFrameTime;
-	Uint32 frameInterval;
+	int frameIndex = 0;
+	Uint32 lastFrameTime = 0;
+	Uint32 frameInterval = 0;
 	State currentState;
 
 	SDL_Rect dstRect;
