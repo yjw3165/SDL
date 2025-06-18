@@ -1,10 +1,15 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
+
+//SDL
 #include <SDL.h>
+#include <SDL_image.h>
+
+//Classes
 #include "Player.h"
 #include "TileMap.h"
-
+#include "backgroundMap.h"
 //SDL 초기화 , 윈도우 생성 , 렌더러 생성
 bool(InitSDL(SDL_Window** window, SDL_Renderer** renderer))
 {
@@ -14,7 +19,7 @@ bool(InitSDL(SDL_Window** window, SDL_Renderer** renderer))
 		return false;
 	}
 
-	*window = SDL_CreateWindow("SDL TEST", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	*window = SDL_CreateWindow("SDL TEST", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE |SDL_WINDOW_MAXIMIZED );
 	if(*window == nullptr)
 	{
 		std::cerr << "Failed to Create Window : " << SDL_GetError() << std::endl;
@@ -28,7 +33,7 @@ bool(InitSDL(SDL_Window** window, SDL_Renderer** renderer))
 		return false;
 	}
 
-	SDL_RenderSetLogicalSize(*renderer, 640, 480);
+	SDL_RenderSetLogicalSize(*renderer, 1920, 1080);
 
 	return true;
 }
@@ -42,7 +47,20 @@ int main()
 	{
 		return 1;
 	}
+
+	if (IMG_Init(IMG_INIT_PNG) == 0)
+	{
+		std::cerr << "Failed to Initialize SDL_Image : " << SDL_GetError() << std::endl;
+		return 1;
+	}
 	
+	//backgroundMap 클래스 Init
+	backgroundMap BG;
+	if (!BG.init(Renderer))
+	{
+		std::cerr << "Failed to Init backgroundMap Class" << std::endl;
+		return 1;
+	}
 	//Player 클래스 Init
 	Player Player;
 	if (!Player.Init(Renderer))
@@ -89,7 +107,9 @@ int main()
 		SDL_RenderClear(Renderer);
 
 		//바탕은 흰색으로
-		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+		//SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+		
+		BG.Render(Renderer);
 		//TileMap 렌더링
 		TileMap.Render(Renderer);
 		//플레이어 렌더링
@@ -108,6 +128,8 @@ int main()
 	//시작 : SDL 생성-> 윈도우 생성 -> 렌더러 생성 -> 텍스처 생성
 	//종료 : 텍스처 정리 -> 렌더러 종료 -> 윈도우 종료 -> SDL 종료
 	
+	//BGMap 정리
+	BG.CleanUp();
 	//TileMap 정리
 	TileMap.CleanUp();
 	//플레이어에 사용된 텍스처 정리
@@ -116,8 +138,12 @@ int main()
 	SDL_DestroyRenderer(Renderer);
 	//윈도우 정리
 	SDL_DestroyWindow(Window);
+	//SDL_Image 종료
+	IMG_Quit();
 	//SDL_종료
 	SDL_Quit();
+
+	system("pause");
 
 	return 0;
 }

@@ -23,7 +23,7 @@ bool TileMap::init(SDL_Renderer* Renderer)
     {
         for (int j = 0; j < MAP_WIDTH; j++)
         {
-            map[i][j] = (i == 9 ? 1 : 0);
+            map[i][j] = (i == 24 ? 1 : 0);
         }
     }
     return true;
@@ -36,6 +36,7 @@ void TileMap::Render(SDL_Renderer* Renderer)
         for (int x = 0; x < MAP_WIDTH; x++)
         {
             int type = map[y][x];
+
             SDL_Rect dest = { x * TILE_SIZE, y * TILE_SIZE,32,32};
             SDL_RenderCopy(Renderer, tileTexture, &TileClips[type], &dest);
         }

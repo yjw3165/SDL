@@ -2,22 +2,19 @@
 #include <SDL.h>
 #include <vector>
 
-class TileMap
+class backgroundMap
 {
-public: 
+public :
 	bool init(SDL_Renderer* Renderer);
 	void Render(SDL_Renderer* Renderer);
 	void CleanUp();
-
 private:
-	SDL_Texture* tileTexture;
-	SDL_Rect TileClips[2];
+	SDL_Texture* BGTexture = nullptr;
+	SDL_Rect TileClips[3];
 
-	static const int TILE_SIZE = 32;
-	static const int MAP_WIDTH = 60;
-	static const int MAP_HEIGHT = 34;
+	static const int MAP_WIDTH = 15;
+	static const int MAP_HEIGHT = 9;
 
 	int map[MAP_HEIGHT][MAP_WIDTH];
-
 };
 

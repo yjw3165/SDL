@@ -3,8 +3,8 @@
 Player::Player()
 	:idleTexture_R(nullptr), idleTexture_L(nullptr), runTexture_R(nullptr), runTexture_L(nullptr),
 	jumpTexture_R(nullptr), jumpTexture_L(nullptr),
-	dstRect{ 304,224,64,64 }, velocityY(0.0f), isJumping(false), wasLeft(false),
-	groundY(224), currentState(State::Idle), 
+	dstRect{ 960,735,32,32 }, velocityY(0.0f), isJumping(false), wasLeft(false),
+	groundY(735), currentState(State::Idle), 
 	frameIndex(0), lastFrameTime(0),frameInterval(0)
 {
 }
@@ -75,13 +75,13 @@ void Player::HandleInput(const Uint8* keyStates)
 	//аб ©Л
 	if (keyStates[SDL_SCANCODE_A])
 	{
-		dstRect.x -= 6;
+		dstRect.x -= 3;
 		wasLeft = true;
 		moving = true;
 	}
 	else if (keyStates[SDL_SCANCODE_D])
 	{
-		dstRect.x += 6;
+		dstRect.x += 3;
 		wasLeft = false;
 		moving = true;
 	}
@@ -90,7 +90,7 @@ void Player::HandleInput(const Uint8* keyStates)
 	if (keyStates[SDL_SCANCODE_SPACE] && !isJumping)
 	{
 		isJumping = true;
-		velocityY = -15.0f;
+		velocityY = -8.5f;
 		frameIndex = 0;
 	}
 
@@ -112,7 +112,7 @@ void Player::Update(Uint32 CurrentTime)
 {
 	UpdatePhysics();
 	UpdateAnimation(CurrentTime);
-	WrapAroundScreen(640);
+	WrapAroundScreen(1920);
 }
 
 void Player::Render(SDL_Renderer* Renderer)
