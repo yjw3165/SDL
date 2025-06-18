@@ -19,7 +19,7 @@ bool(InitSDL(SDL_Window** window, SDL_Renderer** renderer))
 		return false;
 	}
 
-	*window = SDL_CreateWindow("SDL TEST", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE |SDL_WINDOW_MAXIMIZED );
+	*window = SDL_CreateWindow("SDL TEST", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED );
 	if(*window == nullptr)
 	{
 		std::cerr << "Failed to Create Window : " << SDL_GetError() << std::endl;
@@ -142,8 +142,6 @@ int main()
 	IMG_Quit();
 	//SDL_Á¾·á
 	SDL_Quit();
-
-	system("pause");
 
 	return 0;
 }
