@@ -112,7 +112,32 @@ void Player::HandleInput(const Uint8* keyStates)
 	if (isAttacking)
 	{
 		currentState = State::Attack;
+		if (wasLeft)
+		{
+			AttackHitbox =
+			{
+				dstRect.x - 20,
+				dstRect.y + 8,
+				20,
+				16
+			};
+		}
+		else
+		{
+			AttackHitbox =
+			{
+				dstRect.x + dstRect.w,
+				dstRect.y + 8,
+				20,
+				16
+			};
+		}
 		return;
+	}
+	else
+	{
+		AttackHitbox = { 0,0,0,0 };
+		showDebugHitbox = false;
 	}
 
 	if (isJumping)
@@ -168,6 +193,12 @@ void Player::Render(SDL_Renderer* Renderer)
 	{
 		SDL_RenderCopy(Renderer, texture, &currentFrames[frameIndex], &dstRect);
 	}
+
+	if (showDebugHitbox)
+	{
+		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
+		SDL_RenderDrawRect(Renderer, &AttackHitbox);
+	}
 }
 
 void Player::UpdateAnimation(Uint32 currentTime)
@@ -203,6 +234,10 @@ void Player::UpdateAnimation(Uint32 currentTime)
 	//АјАн
 	if (isAttacking)
 	{
+		if (frameIndex == 5)
+		{
+			showDebugHitbox = true;
+		}
 		if (currentTime - lastFrameTime >= frameInterval) 
 		{
 			frameIndex++;

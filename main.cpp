@@ -103,11 +103,13 @@ int main()
 		//애니메이션 / 피직스 업데이트
 		Player.Update(SDL_GetTicks());
 
-		//화면 지우기
-		SDL_RenderClear(Renderer);
+		
 
 		//바탕은 흰색으로
-		//SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+		SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
+
+		//화면 지우기
+		SDL_RenderClear(Renderer);
 		
 		//backgroundMap 렌더링
 		BG.Render(Renderer);

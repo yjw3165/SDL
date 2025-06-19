@@ -55,6 +55,9 @@ private:
 	SDL_Rect jumpFrames[12];
 	SDL_Rect AttackFrames[8];
 
+	SDL_Rect AttackHitbox;
+	bool showDebugHitbox = false;
+
 	std::array<SDL_Texture*, 8> Array_Textures;
 };
 
