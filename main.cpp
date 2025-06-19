@@ -109,13 +109,13 @@ int main()
 		//바탕은 흰색으로
 		//SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 		
+		//backgroundMap 렌더링
 		BG.Render(Renderer);
 		//TileMap 렌더링
 		TileMap.Render(Renderer);
 		//플레이어 렌더링
 		Player.Render(Renderer);
 
-		//실제로 그리기
 		SDL_RenderPresent(Renderer);
 
 		//FPS설정 16ms = 60FPS

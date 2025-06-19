@@ -22,7 +22,7 @@ public:
 	void Render(SDL_Renderer* Renderer);
 
 	//상태 : 기본 / 달리기 / 점프
-	enum class State { Idle, Run, Jump };
+	enum class State { Idle, Run, Jump, Attack };
 
 private:
 	void UpdateAnimation(Uint32 currentTime);
@@ -31,6 +31,7 @@ private:
 
 	float velocityY = 0.0f;
 	bool isJumping = false;
+	bool isAttacking = false;
 	bool wasLeft = false;
 	int groundY = 0;
 
@@ -40,6 +41,8 @@ private:
 	SDL_Texture* runTexture_L = nullptr;
 	SDL_Texture* jumpTexture_R = nullptr;
 	SDL_Texture* jumpTexture_L = nullptr;
+	SDL_Texture* attack_R = nullptr;
+	SDL_Texture* attack_L = nullptr;
 
 	int frameIndex = 0;
 	Uint32 lastFrameTime = 0;
@@ -50,7 +53,8 @@ private:
 	SDL_Rect idleFrames[9];
 	SDL_Rect runFrames[8];
 	SDL_Rect jumpFrames[12];
+	SDL_Rect AttackFrames[8];
 
-	std::array<SDL_Texture*, 6> Array_Textures;
+	std::array<SDL_Texture*, 8> Array_Textures;
 };
 

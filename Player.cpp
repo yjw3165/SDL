@@ -1,9 +1,12 @@
 #include "Player.h"
 #include "TextureLoader.h"
+#include <iostream>
+
+//Constructor
 Player::Player()
 	:idleTexture_R(nullptr), idleTexture_L(nullptr), runTexture_R(nullptr), runTexture_L(nullptr),
-	jumpTexture_R(nullptr), jumpTexture_L(nullptr),
-	dstRect{ 960,735,32,32 }, velocityY(0.0f), isJumping(false), wasLeft(false),
+	jumpTexture_R(nullptr), jumpTexture_L(nullptr), attack_L(nullptr), attack_R(nullptr),
+	dstRect{ 960,735,32,32 }, velocityY(0.0f),isAttacking(false), isJumping(false), wasLeft(false),
 	groundY(735), currentState(State::Idle), 
 	frameIndex(0), lastFrameTime(0),frameInterval(0)
 {
@@ -19,13 +22,16 @@ bool Player::Init(SDL_Renderer* Renderer)
 	runTexture_L = TextureLoader.LoadTexture("assets/run_left.bmp", Renderer);
 	jumpTexture_R = TextureLoader.LoadTexture("assets/jump_right.bmp", Renderer);
 	jumpTexture_L = TextureLoader.LoadTexture("assets/jump_left.bmp", Renderer);
+	attack_R = TextureLoader.LoadPNGTexture("assets/attack_right.png", Renderer);
+	attack_L = TextureLoader.LoadPNGTexture("assets/attack_left.png", Renderer);
 	
 	//텍스처 배열에 추가.
 	//CleanUp할 때 편하게 Destroy 할려고.
 	Array_Textures = { 
 		idleTexture_L,idleTexture_R,
 		runTexture_L,runTexture_R,
-		jumpTexture_L,jumpTexture_R 
+		jumpTexture_L,jumpTexture_R,
+		attack_R,attack_L
 	};
 
 	//텍스처 멀쩡한지 체크.
@@ -54,6 +60,7 @@ bool Player::Init(SDL_Renderer* Renderer)
 	InitFrames(idleFrames, 9, 32, 32, 3, 3);
 	InitFrames(runFrames, 8, 32, 32, 3, 3);
 	InitFrames(jumpFrames, 12, 32, 32, 3, 4);
+	InitFrames(AttackFrames, 8, 32, 32, 3, 3);
 
 	return true;
 }
@@ -73,31 +80,46 @@ void Player::HandleInput(const Uint8* keyStates)
 	bool moving = false;
 
 	//좌 우
-	if (keyStates[SDL_SCANCODE_A])
+	if (keyStates[SDL_SCANCODE_LEFT])
 	{
 		dstRect.x -= 3;
 		wasLeft = true;
 		moving = true;
 	}
-	else if (keyStates[SDL_SCANCODE_D])
+	else if (keyStates[SDL_SCANCODE_RIGHT])
 	{
 		dstRect.x += 3;
 		wasLeft = false;
 		moving = true;
 	}
 
+	//공격
+	if (keyStates[SDL_SCANCODE_Z] && !isAttacking)
+	{
+		isAttacking = true;
+		frameIndex = 0;
+		
+	}
 	//점프
 	if (keyStates[SDL_SCANCODE_SPACE] && !isJumping)
 	{
 		isJumping = true;
+		isAttacking = false;
 		velocityY = -8.5f;
 		frameIndex = 0;
+	}
+
+	if (isAttacking)
+	{
+		currentState = State::Attack;
+		return;
 	}
 
 	if (isJumping)
 	{
 		currentState = State::Jump;
 	}
+	
 	else if (moving)
 	{
 		currentState = State::Run;
@@ -136,7 +158,10 @@ void Player::Render(SDL_Renderer* Renderer)
 		currentFrames = jumpFrames;
 		texture = wasLeft ? jumpTexture_L : jumpTexture_R;
 		break;
-
+	case State::Attack:
+		currentFrames = AttackFrames;
+		texture = wasLeft ? attack_L : attack_R;
+		break;
 	}
 
 	if (currentFrames && texture)
@@ -168,8 +193,33 @@ void Player::UpdateAnimation(Uint32 currentTime)
 		frameCount = 12;
 		frameInterval = 150;
 		break;
+	case State::Attack:
+		frames = AttackFrames;
+		frameCount = 8;
+		frameInterval = 50;
+		break;
 	}
 
+	//공격
+	if (isAttacking)
+	{
+		if (currentTime - lastFrameTime >= frameInterval) 
+		{
+			frameIndex++;
+			lastFrameTime = currentTime;
+
+			if (frameIndex >= frameCount) 
+			{
+				frameIndex = 0;
+				currentState = State::Idle;
+				isAttacking = false;
+			}
+			
+		}
+		return;
+	}
+
+	//점프
 	if (isJumping)
 	{
 		//점프 애니메이션 구간별로 프레임 정하기
