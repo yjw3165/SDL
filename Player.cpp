@@ -234,19 +234,21 @@ void Player::UpdateAnimation(Uint32 currentTime)
 	//АјАн
 	if (isAttacking)
 	{
-		if (frameIndex == 5)
-		{
-			showDebugHitbox = true;
-		}
+		
 		if (currentTime - lastFrameTime >= frameInterval) 
 		{
 			frameIndex++;
 			lastFrameTime = currentTime;
 
+			if (frameIndex == 5)
+			{
+				showDebugHitbox = true;
+			}
 			if (frameIndex >= frameCount) 
 			{
 				frameIndex = 0;
 				currentState = State::Idle;
+				showDebugHitbox = false;
 				isAttacking = false;
 			}
 			

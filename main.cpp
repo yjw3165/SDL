@@ -10,6 +10,10 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "backgroundMap.h"
+#include "Enemy.h"
+#include "ExerciseBot.h"
+
+
 //SDL 초기화 , 윈도우 생성 , 렌더러 생성
 bool(InitSDL(SDL_Window** window, SDL_Renderer** renderer))
 {
@@ -69,6 +73,14 @@ int main()
 		return 1;
 	}
 
+	//ExerciseBot 클래스 Init
+	Enemy* bot = new ExerciseBot(1200, 735);
+	if (!bot->Init(Renderer))
+	{
+		std::cerr << "Failed to Init bot" << std::endl;
+		return 1;
+	}
+
 	//TileMap 클래스 Init
 	TileMap TileMap;
 	if (!TileMap.init(Renderer))
@@ -103,7 +115,8 @@ int main()
 		//애니메이션 / 피직스 업데이트
 		Player.Update(SDL_GetTicks());
 
-		
+		//훈련용 봇 애니메이션 업데이트
+		bot->Update(SDL_GetTicks());
 
 		//바탕은 흰색으로
 		SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
@@ -115,6 +128,9 @@ int main()
 		BG.Render(Renderer);
 		//TileMap 렌더링
 		TileMap.Render(Renderer);
+		
+		//훈련용 봇 렌더링
+		bot->Render(Renderer);
 		//플레이어 렌더링
 		Player.Render(Renderer);
 

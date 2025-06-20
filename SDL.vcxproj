@@ -131,6 +131,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="backgroundMap.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="ExerciseBot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
@@ -138,6 +140,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="backgroundMap.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="ExerciseBot.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TileMap.h" />
