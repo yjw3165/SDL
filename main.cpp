@@ -118,9 +118,13 @@ int main()
 		//훈련용 봇 애니메이션 업데이트
 		bot->Update(SDL_GetTicks());
 
+		//아래 순서대로 렌더링 함 = 레이어 순서
+		//렌더링이 빨리 될 수록 뒤쪽으로 가고
+		//렌더링이 늦게 될 수록 앞쪽으로 나온다.
+		//그래서 지금은 플레이어가 가장 앞쪽으로 나와있음
+		
 		//바탕은 흰색으로
 		SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
-
 		//화면 지우기
 		SDL_RenderClear(Renderer);
 		
@@ -128,7 +132,7 @@ int main()
 		BG.Render(Renderer);
 		//TileMap 렌더링
 		TileMap.Render(Renderer);
-		
+
 		//훈련용 봇 렌더링
 		bot->Render(Renderer);
 		//플레이어 렌더링
