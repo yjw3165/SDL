@@ -11,10 +11,7 @@ ExerciseBot::ExerciseBot(int x, int y)
 
 ExerciseBot::~ExerciseBot()
 {
-	if (texture)
-	{
-		SDL_DestroyTexture(texture);
-	}
+
 }
 
 bool ExerciseBot::Init(SDL_Renderer* renderer)
@@ -46,4 +43,12 @@ void ExerciseBot::Update(Uint32 currentTIme)
 void ExerciseBot::Render(SDL_Renderer* Renderer)
 {
 	SDL_RenderCopy(Renderer, texture, &frames[frameindex], &dstRect);
+}
+
+void ExerciseBot::CleanUp()
+{
+	if (texture)
+	{
+		SDL_DestroyTexture(texture);
+	}
 }

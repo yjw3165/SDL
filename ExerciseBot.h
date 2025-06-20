@@ -11,6 +11,7 @@ public:
 	bool Init(SDL_Renderer* renderer) override;
 	void Update(Uint32 currentTIme) override;
 	void Render(SDL_Renderer* Renderer) override;
+	void CleanUp() override;
 
 private:
 	SDL_Texture* texture;

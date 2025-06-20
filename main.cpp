@@ -146,12 +146,15 @@ int main()
 	//시작 : SDL 생성-> 윈도우 생성 -> 렌더러 생성 -> 텍스처 생성
 	//종료 : 텍스처 정리 -> 렌더러 종료 -> 윈도우 종료 -> SDL 종료
 	
-	//BGMap 정리
-	BG.CleanUp();
-	//TileMap 정리
-	TileMap.CleanUp();
 	//플레이어에 사용된 텍스처 정리
 	Player.CleanUp();
+	//Exercise bot 정리
+	bot->CleanUp();
+	//TileMap 정리
+	TileMap.CleanUp();
+	//BGMap 정리
+	BG.CleanUp();
+	
 	//렌더러 정리
 	SDL_DestroyRenderer(Renderer);
 	//윈도우 정리
