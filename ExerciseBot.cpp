@@ -18,7 +18,7 @@ bool ExerciseBot::Init(SDL_Renderer* renderer)
 {
 	TextureLoader TextureLoader;
 	texture = TextureLoader.LoadPNGTexture("assets/bot.png", renderer);
-
+	
 	if (!texture)
 	{
 		std::cerr << "Failed to Load bot.png Texture" << SDL_GetError() << std::endl;
@@ -30,18 +30,24 @@ bool ExerciseBot::Init(SDL_Renderer* renderer)
 
 void ExerciseBot::Update(Uint32 currentTIme)
 {
-	if (currentTIme % 1000 < 500)
+	/*if (currentTIme % 1000 < 500)
 	{
 		frameindex = 1;
 	}
 	else
 	{
 		frameindex = 2;
+	}*/
+	if (gotHit && currentTIme - lastHitTime >= hitDuration)
+	{
+		gotHit = false;
 	}
+	
 }
 
 void ExerciseBot::Render(SDL_Renderer* Renderer)
 {
+	frameindex = gotHit ? 2 : 0;
 	SDL_RenderCopy(Renderer, texture, &frames[frameindex], &dstRect);
 }
 
@@ -51,4 +57,10 @@ void ExerciseBot::CleanUp()
 	{
 		SDL_DestroyTexture(texture);
 	}
+}
+
+void ExerciseBot::OnHit()
+{
+	gotHit = true;
+	lastHitTime = SDL_GetTicks();
 }

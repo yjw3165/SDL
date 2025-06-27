@@ -24,6 +24,8 @@ public:
 	//상태 : 기본 / 달리기 / 점프
 	enum class State { Idle, Run, Jump, Attack };
 
+	bool isAttackFrame() const;
+	SDL_Rect GetAttackHitBox();
 private:
 	void UpdateAnimation(Uint32 currentTime);
 	void UpdatePhysics();

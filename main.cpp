@@ -118,6 +118,15 @@ int main()
 		//훈련용 봇 애니메이션 업데이트
 		bot->Update(SDL_GetTicks());
 
+		if (Player.isAttackFrame())
+		{
+			const SDL_Rect& hitbox = Player.GetAttackHitBox();
+			if (bot->isHit(hitbox))
+			{
+				bot->OnHit();
+			}
+		}
+		
 		//아래 순서대로 렌더링 함 = 레이어 순서
 		//렌더링이 빨리 될 수록 뒤쪽으로 가고
 		//렌더링이 늦게 될 수록 앞쪽으로 나온다.

@@ -12,6 +12,7 @@ public:
 	virtual void Update(Uint32 currentTime) = 0;
 	virtual void Render(SDL_Renderer* renderer) = 0;
 	virtual void CleanUp() = 0;
+	virtual void OnHit() = 0;
 
 	SDL_Rect GetRect() const { return dstRect; };
 	bool isHit(const SDL_Rect& attackHitBox) const;

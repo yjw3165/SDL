@@ -201,6 +201,16 @@ void Player::Render(SDL_Renderer* Renderer)
 	}
 }
 
+bool Player::isAttackFrame() const
+{
+	return currentState == State::Attack && frameIndex == 5;
+}
+
+SDL_Rect Player::GetAttackHitBox()
+{
+	return AttackHitbox;
+}
+
 void Player::UpdateAnimation(Uint32 currentTime)
 {
 	SDL_Rect* frames = nullptr;
