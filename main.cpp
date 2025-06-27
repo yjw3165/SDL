@@ -109,15 +109,16 @@ int main()
 			}
 		}
 
-		//입력 제어
+		// 1. 입력 제어
 		Player.HandleInput(keyStates);
 
-		//애니메이션 / 피직스 업데이트
+
+		// 2. 상태 업데이트
+		// 2-1 애니메이션 / 피직스 업데이트
 		Player.Update(SDL_GetTicks());
-
-		//훈련용 봇 애니메이션 업데이트
+		// 2-2 훈련용 봇 애니메이션 업데이트
 		bot->Update(SDL_GetTicks());
-
+		// 2-3 피격 판정
 		if (Player.isAttackFrame())
 		{
 			const SDL_Rect& hitbox = Player.GetAttackHitBox();
@@ -127,6 +128,7 @@ int main()
 			}
 		}
 		
+		// 3. 렌더링
 		//아래 순서대로 렌더링 함 = 레이어 순서
 		//렌더링이 빨리 될 수록 뒤쪽으로 가고
 		//렌더링이 늦게 될 수록 앞쪽으로 나온다.
