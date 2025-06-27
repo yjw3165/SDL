@@ -114,11 +114,11 @@ int main()
 
 
 		// 2. 상태 업데이트
-		// 2-1 애니메이션 / 피직스 업데이트
+		// 2-1 플레이어 업데이트
 		Player.Update(SDL_GetTicks());
-		// 2-2 훈련용 봇 애니메이션 업데이트
+		// 2-2 훈련용 봇 업데이트
 		bot->Update(SDL_GetTicks());
-		// 2-3 피격 판정
+		// 2-3 피격 판정 체크
 		if (Player.isAttackFrame())
 		{
 			const SDL_Rect& hitbox = Player.GetAttackHitBox();
